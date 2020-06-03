@@ -1,0 +1,61 @@
+import java.util.*;
+public class Lab3 {
+
+	public static void main(String[] args) {
+		Scanner sc=new Scanner(System.in);
+		System.out.print("Enter Number of lines: ");
+		int num=sc.nextInt();
+		System.out.print("Enter Sign: ");
+		String sign=sc.next();
+		System.out.print("Which shape you want: ");
+		System.out.print('\n'+"1-Right Triangle"+'\n'+"2-Isosceles"+'\n'+"3-Left Triangle"+'\n'+"4-Square"+'\n'+"5-End");
+		int shape=sc.nextInt();
+		boolean bool=true;
+		while(bool) {
+		switch(shape){
+		case 1:
+			for(int i=0;i<num;i++) {
+				for(int j=0;j<=i;j++) {
+					System.out.print(sign);	
+				}
+				System.out.print('\n');
+			}
+			break;
+		case 2:
+			for(int row=1;row<=num;row++) {
+			for(int space=num-row;space>0;space--) {
+				System.out.print(" ");
+			}
+			for(int col=1;col<=row;col++) {
+				System.out.print(sign);
+				System.out.print(" ");
+			}
+			System.out.print('\n');
+		}
+			break;
+		case 3:
+			for(int row=1;row<=num;row++) {
+				for(int space=num-row;space>0;space--) {
+					System.out.print(" ");
+				}
+				for(int col=1;col<=row;col++) {
+					System.out.print(sign);
+				}
+				System.out.print('\n');
+			}
+			break;
+		case 4:
+			for(int row=1;row<=num;row++) {
+				for(int col=1;col<=num;col++) {
+					System.out.print(sign);
+				}
+				System.out.print('\n');
+			}	
+			break;	
+		case 5:
+			System.out.println("thank you");
+			bool=false;
+		}
+		shape=sc.nextInt();
+		}}
+}
