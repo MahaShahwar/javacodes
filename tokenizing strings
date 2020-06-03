@@ -1,0 +1,100 @@
+import java.util.*;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+public class Lab6 {
+	public ArrayList<String> firstlettertokens(String s1,char s) { // Method to get words from string starting with certain letter.
+		ArrayList<String> startlist=new ArrayList<String>();
+		String letter=Character.toString(s);
+		for (String first : s1.split(" ")) {
+			if (first.startsWith(letter)) {
+				startlist.add(first);
+	        }
+		}
+		return (startlist);
+	}
+	public ArrayList<String> lastlettertokens(String s2,char e) { // Method to get words from string ending with certain letter.
+		ArrayList<String> endlist=new ArrayList<String>();
+		String letter=Character.toString(e);
+		for (String end : s2.split(" ")) {
+			if (end.endsWith(letter)) {
+			      endlist.add(end);
+	        }
+		}
+		return (endlist);
+	}
+	public void all(String s2) { // Method to separate aplhabets,digits and special character from string.
+		ArrayList<String> alllist=new ArrayList<String>();
+		StringBuffer alpha = new StringBuffer(), 
+		num = new StringBuffer(), special = new StringBuffer(); 
+		         s2=s2.replaceAll("\\s",""); 
+		        for (int i=0; i<s2.length(); i++) 
+		        { 
+		            if (Character.isDigit(s2.charAt(i))) 
+		                num.append(s2.charAt(i)); 
+		            else if(Character.isAlphabetic(s2.charAt(i))) 
+		                alpha.append(s2.charAt(i)); 
+		            else
+		                special.append(s2.charAt(i)); 
+		        } 
+		        System.out.println(alpha); 
+		        System.out.println(num); 
+		        System.out.println(special); 
+		
+	}
+	public String stringinput(){
+		Scanner sc=new Scanner(System.in);
+		String a = sc.nextLine();
+		return a;
+	}
+	public char charinput(){
+		Scanner sc=new Scanner(System.in);
+		char b = sc.next().charAt(0);
+		return b;
+	}
+	public static <IOHandler> void main(String[] args) {
+		// TODO Auto-generated method stub
+		Scanner sc=new Scanner(System.in);
+		Lab6 l6=new Lab6();
+		ArrayList<String> endwith;
+		ArrayList<String> all;
+		boolean end= true;
+		int num=1;
+		do{
+			System.out.print("what u want to perform:"+'\n' + 
+					"1.tokenization using first letter"+'\n' + 
+					"2.tokenization using last letter"+'\n'+ 
+					"3.Separate string into alphabet, digit and special characters.");
+			int select=sc.nextInt();
+		switch(select) {
+		case 1:
+			System.out.print("Enter string:");
+			String tokenizedstring=l6.stringinput();
+			System.out.print("Enter letter:");
+			char start=l6.charinput();
+			ArrayList<String> startwith=l6.firstlettertokens(tokenizedstring,start);
+			for(String output:startwith) {
+				System.out.println(output);
+			}
+			break;
+		case 2:
+			System.out.print("Enter string:");
+			String tokenizedendstring=l6.stringinput();
+			System.out.print("Enter letter:");
+			char last=l6.charinput();
+			endwith=l6.lastlettertokens(tokenizedendstring,last);
+			for(String endoutput:endwith) {
+				System.out.println(endoutput);
+			}
+			break;
+		case 3:
+			System.out.print("Enter string:");
+			String allstring=l6.stringinput();
+			l6.all(allstring);
+			break;
+		}
+		System.out.print("press 1 to continue and 0 for exit");
+		num=sc.nextInt();
+		}while(num!=0);
+	}
+}
