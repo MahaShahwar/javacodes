@@ -1,0 +1,107 @@
+import java.awt.Dimension;
+import java.awt.List;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.util.Map.Entry;
+import java.util.*;
+import java.lang.*;
+import org.json.simple.JSONArray; 
+import org.json.simple.JSONObject; 
+import org.json.simple.parser.*; 
+import opennlp.tools.stemmer.PorterStemmer;
+import opennlp.tools.stemmer.Stemmer;
+  
+public class lexicon  
+{ 
+	@SuppressWarnings("deprecation")
+	public static void main(String[] args) throws ParseException, IOException   
+    { 
+		
+    	
+    	JSONParser parser = new JSONParser();
+    	    JSONObject jsonObject;
+			File f=new File("C:\\Users\\mahaasghar\\Documents\\practice project");
+			 File[] listOfFiles = f.listFiles();
+			 HashMap<String, Integer> map 
+			    = new HashMap<>();
+			 int p=1;
+			 int i=1;
+			 ArrayList<String> s2=new ArrayList<String>();
+			 ArrayList<String> fileName=new ArrayList<String>();
+			 PorterStemmer stemmer=new PorterStemmer();
+			    for (int k = 0; k < listOfFiles.length; k++) {
+			        if (listOfFiles[k].isFile()) {
+			        	 fileName.add(listOfFiles[k].getName());
+			        }}
+			    System.out.println(fileName);
+			    for(int l=0;l<fileName.size();l++) {
+			    jsonObject = (JSONObject) parser.parse(new FileReader("C:\\Users\\mahaasghar\\Documents\\practice project\\"+fileName.get(l)));	
+				String text = (String) jsonObject.get("text"); 
+				System.out.println("text 1: ");
+				System.out.println(text);
+				String[] check=text.split(" ");
+				System.out.println(check.length);
+				String[] words = text.replaceAll("[^a-zA-Z0-9 ]", "").toLowerCase().split("\\s+");
+				for(String s:words) {
+					String stem = stemmer.stem(s);
+					s2.add(stem);
+				}
+				
+				System.out.println(s2.size());
+				
+				while(i<s2.size()) {
+					if(map.containsKey(s2.get(i))) {
+						i++;
+					}
+					else {
+						map.put(s2.get(i),p);
+						i++;
+						p++;
+					}
+				}}	 		
+			    LinkedList<Map.Entry<String, Integer> > list = 
+				        new LinkedList<Map.Entry<String, Integer> >(map.entrySet()); 
+	      
+				 // Sort the list 
+				 Collections.sort(list, new Comparator<Map.Entry<String, Integer> >() { 
+				     public int compare(Map.Entry<String, Integer> o1,  
+				                        Map.Entry<String, Integer> o2) 
+				     { 
+				         return (o1.getValue()).compareTo(o2.getValue()); 
+				     } 
+				 }); 
+				 // put data from sorted list to hashmap  
+				 HashMap<String, Integer> temp = new LinkedHashMap<String, Integer>(); 
+				 for (Map.Entry<String, Integer> aa : list) { 
+				     temp.put(aa.getKey(), aa.getValue()); 
+				 }
+				 // print the sorted hashmap 
+				 for (Map.Entry<String, Integer> en : temp.entrySet()) { 
+				     System.out.println("Key = " + en.getKey() +  
+				                   ", Value = " + en.getValue()); 
+				 } 
+				 TreeMap<String, Integer> sorted = new TreeMap<>(map); 
+				 Set<Entry<String, Integer>> mappings = sorted.entrySet(); 
+				 System.out.println("HashMap after sorting by keys in ascending order "); 
+				 for(Entry<String, Integer> mapping : mappings){
+					 System.out.println(mapping.getKey() + " ==> " + mapping.getValue()); 
+					 }
+				 try {
+			         FileOutputStream fileOut =
+			         new FileOutputStream("C:\\Users\\mahaasghar\\Documents\\practice project\\lexicon file\\lexicon.ser");
+			         ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			         out.writeObject(map);
+			         out.close();
+			         fileOut.close();
+			         System.out.printf("Serialized data is saved in /tmp/employee.ser");
+			      } catch (IOException n) {
+			         n.printStackTrace();
+			      }
+
+				
+			          
+    }
+} 
