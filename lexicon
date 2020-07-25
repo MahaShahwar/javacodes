@@ -23,9 +23,9 @@ public class lexicon
     	
     	JSONParser parser = new JSONParser();
     	    JSONObject jsonObject;
-			File f=new File("C:\\Users\\mahaasghar\\Documents\\practice project");
+			File f=new File("C:path here");
 			 File[] listOfFiles = f.listFiles();
-			 HashMap<String, Integer> map 
+			 HashMap<Integer,String> map 
 			    = new HashMap<>();
 			 int p=1;
 			 int i=1;
@@ -38,60 +38,54 @@ public class lexicon
 			        }}
 			    System.out.println(fileName);
 			    for(int l=0;l<fileName.size();l++) {
-			    jsonObject = (JSONObject) parser.parse(new FileReader("C:\\Users\\mahaasghar\\Documents\\practice project\\"+fileName.get(l)));	
+			    jsonObject = (JSONObject) parser.parse(new FileReader("folder path containing files\\"+fileName.get(l)));	
 				String text = (String) jsonObject.get("text"); 
-				System.out.println("text 1: ");
-				System.out.println(text);
 				String[] check=text.split(" ");
-				System.out.println(check.length);
 				String[] words = text.replaceAll("[^a-zA-Z0-9 ]", "").toLowerCase().split("\\s+");
 				for(String s:words) {
 					String stem = stemmer.stem(s);
 					s2.add(stem);
 				}
-				
-				System.out.println(s2.size());
-				
 				while(i<s2.size()) {
-					if(map.containsKey(s2.get(i))) {
+					if(map.containsValue(s2.get(i))) {
 						i++;
 					}
 					else {
-						map.put(s2.get(i),p);
+						map.put(p,s2.get(i));
 						i++;
 						p++;
 					}
 				}}	 		
-			    LinkedList<Map.Entry<String, Integer> > list = 
-				        new LinkedList<Map.Entry<String, Integer> >(map.entrySet()); 
+			    LinkedList<Map.Entry<Integer,String> > list = 
+				        new LinkedList<Map.Entry<Integer,String> >(map.entrySet()); 
 	      
 				 // Sort the list 
-				 Collections.sort(list, new Comparator<Map.Entry<String, Integer> >() { 
-				     public int compare(Map.Entry<String, Integer> o1,  
-				                        Map.Entry<String, Integer> o2) 
+				 Collections.sort(list, new Comparator<Map.Entry<Integer,String> >() { 
+				     public int compare(Map.Entry<Integer,String> o1,  
+				                        Map.Entry<Integer,String> o2) 
 				     { 
 				         return (o1.getValue()).compareTo(o2.getValue()); 
 				     } 
 				 }); 
 				 // put data from sorted list to hashmap  
-				 HashMap<String, Integer> temp = new LinkedHashMap<String, Integer>(); 
-				 for (Map.Entry<String, Integer> aa : list) { 
+				 HashMap<Integer,String> temp = new LinkedHashMap<Integer,String>(); 
+				 for (Map.Entry<Integer,String> aa : list) { 
 				     temp.put(aa.getKey(), aa.getValue()); 
 				 }
 				 // print the sorted hashmap 
-				 for (Map.Entry<String, Integer> en : temp.entrySet()) { 
+				 for (Map.Entry<Integer,String> en : temp.entrySet()) { 
 				     System.out.println("Key = " + en.getKey() +  
 				                   ", Value = " + en.getValue()); 
 				 } 
-				 TreeMap<String, Integer> sorted = new TreeMap<>(map); 
-				 Set<Entry<String, Integer>> mappings = sorted.entrySet(); 
+				 TreeMap<Integer,String> sorted = new TreeMap<>(map); 
+				 Set<Entry<Integer,String>> mappings = sorted.entrySet(); 
 				 System.out.println("HashMap after sorting by keys in ascending order "); 
-				 for(Entry<String, Integer> mapping : mappings){
+				 for(Entry<Integer,String> mapping : mappings){
 					 System.out.println(mapping.getKey() + " ==> " + mapping.getValue()); 
 					 }
 				 try {
 			         FileOutputStream fileOut =
-			         new FileOutputStream("C:\\Users\\mahaasghar\\Documents\\practice project\\lexicon file\\lexicon.ser");
+			         new FileOutputStream("path of lexicon storage folder\\lexicon.ser");
 			         ObjectOutputStream out = new ObjectOutputStream(fileOut);
 			         out.writeObject(map);
 			         out.close();
